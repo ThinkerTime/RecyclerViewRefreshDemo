@@ -71,13 +71,23 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            /**
+             * 当RecyclerView的滑动状态改变时触发
+             * newState#0->手指离开屏幕$SCROLL_STATE_IDLE = 0
+             * newState#1->手指触摸屏幕$SCROLL_STATE_DRAGGING = 1
+             * newState#2->手指加速滑动并放开，此时滑动状态伴随SCROLL_STATE_IDLE$SCROLL_STATE_SETTLING = 2
+             * 由于上拉加载更多的是在滑动到最后一个item时自动触发的，与手指是否在屏幕上无关，即与滑动状态无关
+             */
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 Log.d("data", "StateChanged = " + newState);
 
             }
-
+            /**
+             * 当RecyclerView滑动时触发
+             * 类似点击事件的MotionEvent.ACTION_MOVE
+             */
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -139,12 +149,11 @@ public class MainActivity extends AppCompatActivity {
      */
     private void getData() {
         for (int i = 0; i < 6; i++) {
-//            Map<String, Object> map = new HashMap<>();
-//            map.put(i,i+"king");
             data.add("201"+i+"-12-11 12:00");
         }
         adapter.notifyDataSetChanged();
         mSwipeRefreshLayout.setRefreshing(false);
+        //加载数据完毕时需要将foot_item移除掉
         adapter.notifyItemRemoved(adapter.getItemCount());
     }
 }
