@@ -11,9 +11,7 @@ import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
 
     private Handler mHandler = new Handler();
-    private List<Map<String, Object>> data = new ArrayList<>();
+    private List<String> data = new ArrayList<>();
     private RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, data);
     boolean isLoading;
 
@@ -141,8 +139,9 @@ public class MainActivity extends AppCompatActivity {
      */
     private void getData() {
         for (int i = 0; i < 6; i++) {
-            Map<String, Object> map = new HashMap<>();
-            data.add(map);
+//            Map<String, Object> map = new HashMap<>();
+//            map.put(i,i+"king");
+            data.add("201"+i+"-12-11 12:00");
         }
         adapter.notifyDataSetChanged();
         mSwipeRefreshLayout.setRefreshing(false);
